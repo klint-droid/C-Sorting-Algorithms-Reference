@@ -96,49 +96,55 @@ void insertionSort(int arr[], int size){
     printf("Insertion Sort Trace\n\n");
     printf("Initial Array: ");
     printArray(arr, size);
+    printf("\n");
 
     for (int i = 1; i < size; i++){
         int key = arr[i];
         int j = i - 1;
 
-        printf("\nPass %d (i=%d, key=%d): Inserted %d into sorted part [", i, i, key, key);
+        printf("\nPass %d (i=%d, Key=%d): Insert %d into sorted part [", i, i, key, key);
         for (int k = 0; k < i; k++){
             printf("%d", arr[k]);
-            if( k < i - 1) printf(", ");
+            if(k < i - 1) printf(", ");
         }
         printf("]\n");
 
         printf(" Key: %d. Start comparison at index j = %d (value %d).\n", key, j, arr[j]);
 
         while(j >= 0 && arr[j] > key){
-            printf(" Compare key (%d) < Array[%d] (%d): TRUE. Shift %d right.\n", key, j, arr[j], arr[j]);
+            printf(" Compare Key (%d) < Array[%d] (%d): TRUE. Shift %d right.\n", key, j, arr[j], arr[j]);
             arr[j + 1] = arr[j];
             j--;
             if(j >= 0){
-                printf(" Compare key (%d) < Array[%d] (%d): ", key, j, arr[j]);
-            }
-            if(j >= 0 && arr[j] <= key){
-                printf(" Compare key (%d) < Array[%d] (%d): FALSE. Stop comparisons.\n", key, j, arr[j]);
-            } else if (j < 0){
+                if(arr[j] > key)
+                    printf(" Compare Key (%d) < Array[%d] (%d): TRUE. Shift %d right.\n", key, j, arr[j], arr[j]);
+                else
+                    printf(" Compare Key (%d) < Array[%d] (%d): FALSE. Stop comparisons.\n", key, j, arr[j]);
+            } else {
                 printf(" j becomes -1. Stop comparisons.\n");
-            } 
-            arr[j + 1] = key;
-            printf(" INSERT %d at index %d.\n", key, j + 1);
-            printf(" Array State: ");
-            printArray(arr, size);
-
-            printf(" Sorted Part: [");
-            for (int k = 0; k <= 1; k++){
-                printf("%d", arr[k]);
-                if( k < 1) printf(", ");
             }
-            printf("]\n");
         }
-        printf("\n--- Final Sorted Array (Insertion Sort) ---\n");
-        printf("Sorted Array: ");
+
+        arr[j + 1] = key;
+        printf(" INSERT %d at index %d.\n", key, j + 1);
+        printf(" Array State: ");
         printArray(arr, size);
+        printf("\n");
+
+        printf(" Sorted Part: [");
+        for(int k = 0; k <= i; k++){
+            printf("%d", arr[k]);
+            if(k < i) printf(", ");
+        }
+        printf("]\n");
     }
+
+    printf("\n--- Final Sorted Array (Insertion Sort) ---\n");
+    printf("Sorted Array: ");
+    printArray(arr, size);
+    printf("\n");
 }
+
 
 int main(){
 
@@ -154,7 +160,6 @@ int main(){
         printf("3. Selection Sort\n");
         printf("Enter your choice (1-3): ");
         scanf("%d", &choice);
-    } while (choice < 1 || choice > 3);
 
     switch (choice)
     {
@@ -162,15 +167,17 @@ int main(){
         bubbleSort(data, size);
         break;
     case 2:
-        insertionSort(data, size);
+        selectionSort(data, size);
         break;
     case 3:
-        selectionSort(data, size);
+        
+        insertionSort(data, size);
         break;
     default:
         printf("Invalid choice!\n");
         break;
     }
+    } while (choice < 1 || choice > 3);
 
     return 0;
 }
